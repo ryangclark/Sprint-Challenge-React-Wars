@@ -5,8 +5,8 @@ const CharacterCard = props => {
     return (
         <div className="character-card">
             <h3>{props.character.name}</h3>
-            {/* <img src={props.character.} */}
-            <p>{props.character.url}</p>
+            {/* <p>Homeworld: {props.charHomeworld}</p> */}
+            <p>Birth Year: {props.character.birth_year}</p>
         </div>
     );
 };

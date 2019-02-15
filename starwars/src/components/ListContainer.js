@@ -6,8 +6,12 @@ import CharacterCard from './CharacterCard';
 const ListContainer = props => {
     return (
         <div className="list-container">
-            {props.charList.map(char =>
-                <CharacterCard character={char} />
+            {props.charList.map((char, index) =>
+                <CharacterCard 
+                    character={char}
+                    // charHomeworld={props.homeworlds[index]}
+                    key={char.created}
+                />
             )}
         </div>
     );
