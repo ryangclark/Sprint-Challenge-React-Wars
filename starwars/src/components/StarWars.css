@@ -3,6 +3,17 @@
     display: flex;
     flex-direction: column;
     margin: 1rem;
+    padding: 0 2rem 1rem;
+}
+
+.character-card h3 {
+    border-bottom: 1px solid grey;
+    padding-bottom: 1rem;
+}
+
+.character-card p {
+    margin: 0.25rem 0;
+    text-align: left;
 }
 
 .list-container {
