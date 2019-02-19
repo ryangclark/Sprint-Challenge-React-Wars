@@ -9,7 +9,7 @@ const ListContainer = props => {
             {props.charList.map((char, index) =>
                 <CharacterCard 
                     character={char}
-                    // charHomeworld={props.homeworlds[index]}
+                    checkHomeworldState={props.checkHomeworldState}
                     key={char.created}
                 />
             )}
