@@ -8,15 +8,15 @@ const CharacterCard = props => {
 
     useEffect(() => {
         // if charHomeworld is an object, we're good
-        if (typeof charHomeworld === 'object') {return;}
+        if (charHomeworld.name) {return;}
         // else, check if homeworld is in App's state
         const homeworldAppState = props.checkHomeworldState(charHomeworld);
         // if homeworld IS in App's state, set that object to local state
-        if (typeof homeworldAppState === 'object') {
+        if (homeworldAppState !== null) {
             setHomeworld(homeworldAppState);
             // TODO: I dunno why this is getting called. 
             // It's retunning `null` when the `if` above should block that
-            // console.log('homeworldAppState:', homeworldAppState);
+            console.log('homeworldAppState:', typeof homeworldAppState.length);
         }
     });
     
@@ -29,8 +29,8 @@ const CharacterCard = props => {
             <p><strong>Hair Color:</strong> {props.character.hair_color}</p>
             <p><strong>Eye Color:</strong> <span style={{color: props.character.eye_color}}>{props.character.eye_color}</span></p>
             {!charHomeworld ? null
-                : typeof charHomeworld === 'object' ? console.log('ternary', charHomeworld)
-                : <p className="homeworld"><strong>Homeworld:</strong>{charHomeworld.name}</p>
+                : typeof charHomeworld === null ? null
+                : <p className="homeworld"><strong>Homeworld:</strong> {charHomeworld.name}</p>
             }
         </div>
     );
