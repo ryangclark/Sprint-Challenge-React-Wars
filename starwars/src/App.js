@@ -7,7 +7,7 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      homeworlds: [],
+      homeworlds: {},
       starwarsChars: []
     };
   }
@@ -16,15 +16,15 @@ class App extends Component {
     this.getCharacters('https://swapi.co/api/people');
   }
 
-  checkHomeworldState = homeworldURL => {
-    for (let world of this.state.homeworlds) {
-      if (homeworldURL === world.url) {
-        console.log('homeworld found in app state!', world.name);
-        return world;
-      }
+  checkStateForHomeworld = homeworldURL => {
+    // check if homeworldURL is in App state
+    if (this.state.homeworlds.hasOwnProperty(homeworldURL)) {
+      // wait for the `getHomeworld() fetch()` to complete
+      return;
     }
+    this.setState({ homeworlds: {...this.state.homeworlds, [homeworldURL]: null} });
     this.getHomeworld(homeworldURL);
-    return null; //return null for CharacterCard.js logic
+    return;
   }
 
   getCharacters = URL => {
@@ -38,6 +38,10 @@ class App extends Component {
       .then(data => {
         this.setState({ starwarsChars: data.results });
       })
+      // once `starwarsChars` has been populated, begin fetching their homeworlds
+      .then(() => this.state.starwarsChars.forEach(
+        char => this.checkStateForHomeworld(char.homeworld)
+      ))
       .catch(err => {
         throw new Error(err);
       });
@@ -50,7 +54,7 @@ class App extends Component {
         return res.json();
       })
       .then(data => {
-        this.setState({ homeworlds: [...this.state.homeworlds, data] });
+        this.setState({ homeworlds: {...this.state.homeworlds, [URL]: data} });
       })
       .catch(err => {
         throw new Error(err);
@@ -63,8 +67,7 @@ class App extends Component {
         <h1 className="Header">React Wars</h1>
         <ListContainer 
           charList={this.state.starwarsChars}
-          checkHomeworldState={this.checkHomeworldState}
-          // homeworlds={this.state.homeworlds}
+          homeworlds={this.state.homeworlds}
         />
       </div>
     );
